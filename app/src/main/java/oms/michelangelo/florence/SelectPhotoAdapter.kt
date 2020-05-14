@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.item_select_photo.view.*
 class SelectPhotoAdapter(var context: Context) :
     RecyclerView.Adapter<SelectPhotoAdapter.ViewHolder>() {
 
-    private lateinit var mLists: ArrayList<Drawable>
+    private var mLists: ArrayList<ImageItemInfo> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_select_photo, parent, false)
@@ -26,10 +26,10 @@ class SelectPhotoAdapter(var context: Context) :
     override fun getItemCount(): Int = mLists.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        Glide.with(context).load(mLists[position]).into(holder.itemView.ivPhoto)
+        Glide.with(context).load(mLists[position].path).into(holder.itemView.ivPhoto)
     }
 
-    fun setData(lists: ArrayList<Drawable>) {
+    fun setData(lists: ArrayList<ImageItemInfo>) {
         this.mLists = lists
         notifyDataSetChanged()
     }

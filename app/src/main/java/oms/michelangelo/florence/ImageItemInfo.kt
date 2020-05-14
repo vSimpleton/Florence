@@ -8,7 +8,8 @@ package oms.michelangelo.florence
 class ImageItemInfo {
 
     var name: String? = null
+    var size: Int? = 0
     var path: String? = null
-    var createTime: Long? = 0
+    var createTime: String? = null
 
 }
