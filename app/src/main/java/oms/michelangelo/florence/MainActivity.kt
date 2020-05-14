@@ -86,9 +86,10 @@ class MainActivity : AppCompatActivity() {
             }
 
             runOnUiThread { mAdapter.setData(mLists) }
-        })
+        }).start()
     }
 
+    @Deprecated("Use getAllImageList() to load images data")
     private fun initData() {
 //        mLists = ArrayList()
 //        getDrawable(R.drawable.test)?.let { mLists.add(it) }
