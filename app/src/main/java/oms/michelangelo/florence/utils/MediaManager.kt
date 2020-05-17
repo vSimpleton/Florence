@@ -1,15 +1,10 @@
 package oms.michelangelo.florence.utils
 
-import android.R.attr.path
-import android.content.ContentResolver
 import android.content.Context
-import android.database.Cursor
-import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import oms.michelangelo.florence.bean.MediaData
 import java.io.File
-
 
 /**
  * Created by Sherry on 2020/5/17

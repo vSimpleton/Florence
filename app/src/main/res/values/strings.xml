@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Florence</string>
+    <string name="main_bottom_preview">预览</string>
+    <string name="main_bottom_complete">完成</string>
 </resources>
