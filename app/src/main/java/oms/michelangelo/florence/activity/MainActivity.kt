@@ -5,26 +5,26 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.MediaStore
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
-import oms.michelangelo.florence.ImageItemInfo
-import oms.michelangelo.florence.MediaManager
+import oms.michelangelo.florence.bean.MediaData
+import oms.michelangelo.florence.utils.MediaManager
 import oms.michelangelo.florence.R
 import oms.michelangelo.florence.adapter.SelectPhotoAdapter
+import oms.michelangelo.florence.utils.MediaManager.Callback
 import oms.michelangelo.florence.utils.StatusBarUtil
-import java.io.File
 
-private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+private val REQUIRED_PERMISSIONS =
+        arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
 class MainActivity : AppCompatActivity() {
 
     private var list: MutableList<String> = ArrayList()
     private val REQUEST_PERMISSION_CODE = 100
     private lateinit var mAdapter: SelectPhotoAdapter
-    private lateinit var mLists: ArrayList<ImageItemInfo>
+    private lateinit var mLists: ArrayList<MediaData>
     private var hasPermissionDenied = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,21 +35,26 @@ class MainActivity : AppCompatActivity() {
         StatusBarUtil.StatusBarLightMode(this)
 
         initPermission()
-        getAllImageList()
         initRecyclerView()
-    }
+        getAllImageList()
 
-    private fun getAllImageList() {
-        mLists = ArrayList()
-        mLists = MediaManager.getAllImageList(this, mLists)
     }
 
     private fun initRecyclerView() {
         mAdapter = SelectPhotoAdapter(this)
+        mAdapter.setData(mLists)
         val layoutManager = GridLayoutManager(this, 4)
         rcyPhoto.layoutManager = layoutManager
         rcyPhoto.adapter = mAdapter
-        mAdapter.setData(mLists)
+    }
+
+    private fun getAllImageList() {
+        mLists = ArrayList()
+        MediaManager.getAllImageList(this, mLists, object : Callback {
+            override fun onSuccess(result: List<MediaData>) {
+                mAdapter.setData(result)
+            }
+        })
     }
 
     private fun initPermission() {
@@ -63,7 +68,7 @@ class MainActivity : AppCompatActivity() {
             ActivityCompat.requestPermissions(this, list.toTypedArray(), REQUEST_PERMISSION_CODE)
         } else {
             //获取媒体文件
-//            getAllImageList()
+            getAllImageList()
         }
     }
 
@@ -80,7 +85,7 @@ class MainActivity : AppCompatActivity() {
         if (hasPermissionDenied) { //跳转到权限设置页面
 
         } else { //获取媒体文件
-//            getAllImageList()
+            getAllImageList()
         }
     }
 }
